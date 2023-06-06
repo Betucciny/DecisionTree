@@ -1,0 +1,15 @@
+Ambiente,Temperatura,Humedad,Viento,Jugar
+S,A,A,N,N
+S,A,A,S,N
+N,A,A,N,S
+Ll,M,A,N,S
+Ll,B,N,N,S
+Ll,B,N,S,N
+N,B,N,S,S
+S,M,A,N,N
+S,B,N,N,S
+Ll,M,N,N,S
+S,M,N,S,S
+N,M,A,S,S
+N,A,N,N,S
+Ll,M,A,S,N
