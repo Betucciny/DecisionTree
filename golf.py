@@ -14,7 +14,8 @@ def main():
     tree_clf.printTree()
     tree_clf.plotTree()
     test = [["Ll", "M", "A", "N"],["S", "A", "A", "S"]]
-    print(tree_clf.predict(test))
+    for t in test:
+        print(f"La predicción para {t} es: {tree_clf.predict([t])}")
 
 
 if __name__ == '__main__':

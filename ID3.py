@@ -23,6 +23,7 @@ class DecisionTreeClassifier:
         self.node = None
         self.entropy = self._get_entropy([x for x in range(len(self.labels))])  # calculates the initial entropy
         self.n_nodes = 0
+        self.leaf_nodes = 0
 
     def _get_entropy(self, x_ids):
         """ Calculates the entropy.
@@ -114,10 +115,12 @@ class DecisionTreeClassifier:
         labels_in_features = [self.labels[x] for x in x_ids]
         # if all the example have the same class (pure node), return node
         if len(set(labels_in_features)) == 1:
+            self.leaf_nodes += 1
             node.value = self.labels[x_ids[0]]
             return node
         # if there are not more feature to compute, return node with the most probable class
         if len(feature_ids) == 0:
+            self.leaf_nodes += 1
             node.value = max(set(labels_in_features), key=labels_in_features.count)  # compute mode
             return node
         # else...
@@ -142,7 +145,7 @@ class DecisionTreeClassifier:
                     to_remove = feature_ids.index(best_feature_id)
                     feature_ids.pop(to_remove)
                 # recursively call the algorithm
-                child.next = self._id3_recv(child_x_ids, feature_ids, child.next)
+                child.next = self._id3_recv(child_x_ids, feature_ids.copy(), child.next)
         return node
 
     def predict(self, X):
@@ -203,11 +206,10 @@ class DecisionTreeClassifier:
                     continue
                 plotRecursive(child.next, name, child.value, level + 1)
 
-
         plotRecursive(self.node, None, None, 0)
-        colors = ['red' if node == self.node.value + '0' else 'lightblue' for node in graph.nodes().keys()]
+        colors = ['pink' if node == self.node.value + '0' else 'lightblue' for node in graph.nodes().keys()]
 
-        plt.figure(3, figsize=(15, 15))
+        plt.figure(3, figsize=(25, 45))
         pos = nx.multipartite_layout(graph, subset_key='layer')
         nx.draw_networkx(graph, pos=pos, node_size=3000, edge_color='k', node_color=colors, with_labels=False, font_size=4)
         edge_labels = nx.get_edge_attributes(graph, 'label')
